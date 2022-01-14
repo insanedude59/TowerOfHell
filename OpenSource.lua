@@ -10,6 +10,20 @@ Keybind = Enum.KeyCode.RightShift -- Doesn't work
 
 }
 
+-- bypasses (humanoid,walkspeed, godmode)
+function godmode()
+local mt = getrawmetatable(game)
+setreadonly(mt,false)
+local old = mt.__index
+mt.__index = newcclosure(function(self,vis)
+    if self == "kills" and vis == "Parent" then
+        return vis.Parent
+    end
+    return old(self,vis)
+end)
+end
+
+
 
 local mt = getrawmetatable(game)
 setreadonly(mt,false)
@@ -64,9 +78,19 @@ local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 end)
 Colorpicker3:UpdateColor(Config.Color)
 
+Section1:CreateButton("Godmode",function()
+        for i,v in pairs(workspace.tower:GetDescendants()) do
+            if v.Name == "kills" then
+                print(v.Parent)
+                v:Destroy()
+            end
+        end
+end)
 
 
-Section1:CreateButton("Tp to Top",function(value)
+
+
+Section1:CreateButton("Tp to Top",function()
 for _,v in pairs(game:GetService("Workspace").tower.finishes:GetChildren()) do
     if _ == 1 and v.Name == "Finish" then
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Position)
@@ -110,9 +134,9 @@ end)
 
 Section1:CreateButton("Delete all Kill Parts",function()
       for k,v in pairs(game:GetService("Workspace").tower:GetDescendants()) do
-    if v.Name == "kills" then
-        print(v.Parent)
-        v.Parent:Destroy()
+    if string.match(v.Name,"kill") then
+        print(v)
+        v:Destroy()
         end
     end
 end)
