@@ -27,7 +27,7 @@ local mt = getrawmetatable(game)
 setreadonly(mt,false)
 local old = mt.__index
 mt.__index = newcclosure(function(self,ww)
-    if ww == "JumpPower" then
+    if ff == "JumpPower" then
         return game.Players.LocalPlayer.Character.Humanoid.JumpPower
     end
     return old(self,ww)
@@ -66,7 +66,7 @@ Colorpicker3:UpdateColor(Config.Color)
 
 
 
-Section1:CreateButton("Tp to Top",nil,function(value)
+Section1:CreateButton("Tp to Top",function(value)
 for _,v in pairs(game:GetService("Workspace").tower.finishes:GetChildren()) do
     if _ == 1 and v.Name == "Finish" then
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Position)
@@ -78,8 +78,8 @@ end)
 Section1:CreateToggle("AutoTp to Top",nil,function(value)
     tog = value
     while tog do wait(0.1)
-    for _,v in pairs(game:GetService("Workspace").tower.finishes:GetChildren()) do
-    if _ == 1 and v.Name == "Finish" then
+    for i,v in pairs(game:GetService("Workspace").tower.finishes:GetChildren()) do
+    if i == 1 and v.Name == "Finish" then
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Position)
             end
         end
