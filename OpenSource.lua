@@ -11,6 +11,27 @@ Keybind = Enum.KeyCode.RightShift -- Doesn't work
 }
 
 
+local mt = getrawmetatable(game)
+setreadonly(mt,false)
+local old = mt.__index
+mt.__index = newcclosure(function(self,ww)
+    if ww == "WalkSpeed" then
+        return game.Players.LocalPlayer.Character.Humanoid.WalkSpeed
+    end
+    return old(self,ww)
+end)
+
+
+
+local mt = getrawmetatable(game)
+setreadonly(mt,false)
+local old = mt.__index
+mt.__index = newcclosure(function(self,ww)
+    if ww == "JumpPower" then
+        return game.Players.LocalPlayer.Character.Humanoid.JumpPower
+    end
+    return old(self,ww)
+end)
 
 
 
@@ -100,7 +121,7 @@ local sp = Section2:CreateTextBox("WalkSpeed","Only numbers",true,function(text)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = text
 end)
 
-local j =Section2:CreateTextBox("JumpPower","Only numbers",true,function(text)
+local j = Section2:CreateTextBox("JumpPower","Only numbers",true,function(text)
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = text
 end)
 
@@ -115,5 +136,3 @@ end)
 end)
 
 s:AddToolTip("Only use this if anticheat is disabled")
-j:AddToolTip("Only use this if anticheat is disabled")
-sp:AddToolTip("Only use this if anticheat is disabled")
